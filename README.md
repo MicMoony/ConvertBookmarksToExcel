@@ -8,8 +8,8 @@ A PowerShell script that extracts bookmarks from an HTML file exported by your w
 - Extracts nested folder paths
 - Decodes HTML entities
 - Outputs a tab-delimited `.csv` file
-- Converts to Excel `.xlsx` via COM automation (optional)
-- No admin rights required
+- Converts to Excel `.xlsx` via COM automation
+- No administrative privileges required
 
 ## Supported Browsers
 
@@ -42,5 +42,5 @@ A PowerShell script that extracts bookmarks from an HTML file exported by your w
 ## Example
 
 ```powershell
-.\ConvertBookmarksToExcel.ps1 -InputFile "my_links.html" -OutputXlsx "C:\Exported\Links.xlsx"
+.\ConvertBookmarksToExcel.ps1 -InputFile "MyEdgeBookmarks.html" -OutputXlsx "C:\Export\MyEdgeBookmarks_List.xlsx"
 ```
