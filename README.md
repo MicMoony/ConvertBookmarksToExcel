@@ -28,6 +28,7 @@ A PowerShell script that extracts bookmarks from an HTML file exported by your w
 
 ```powershell
 .\ConvertBookmarksToExcel.ps1 [-InputFile "bookmarks.html"] [-OutputXlsx "bookmarks.xlsx"]
+```
 
 ## Parameters
 
@@ -42,3 +43,4 @@ A PowerShell script that extracts bookmarks from an HTML file exported by your w
 
 ```powershell
 .\ConvertBookmarksToExcel.ps1 -InputFile "my_links.html" -OutputXlsx "C:\Exported\Links.xlsx"
+```
