@@ -1,6 +1,8 @@
 # ConvertBookmarksToExcel.ps1
 
-A PowerShell script that extracts bookmarks from an HTML file exported by your web browser (e.g. Chrome, Firefox, Edge) and converts them to an Excel `.xlsx` file. The output includes folder hierarchy, title, and URL.
+Ever find yourself collecting dozens, or even hundreds, of browser bookmarks over time, only to lose track of what’s where? You're not alone. Staying organized gets tricky fast. But that ends now.
+
+This PowerShell script helps bring order to the chaos by extracting bookmarks from an HTML file exported by your web browser (like Chrome, Firefox, Edge) and converting them into a clean, searchable Excel `.xlsx` file. The output includes the full folder hierarchy, bookmark titles, and URLs, all neatly arranged for easy viewing.
 
 ## Features
 
