@@ -124,6 +124,10 @@ try {
     # Get the active workbook after OpenText
     $workbook = $excel.ActiveWorkbook
 
+    # Rename the first worksheet
+    $worksheet = $workbook.Worksheets.Item(1)
+    $worksheet.Name = "Bookmarks"
+
     # Save as .xlsx
     $excel.DisplayAlerts = $false
     $workbook.SaveAs($outputFile, 51)  # 51 = xlOpenXMLWorkbook
