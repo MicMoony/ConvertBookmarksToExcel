@@ -9,7 +9,7 @@ This PowerShell script helps bring order to the chaos by extracting bookmarks fr
 - Parses standard Netscape Bookmark File format
 - Extracts nested folder paths
 - Decodes HTML entities
-- Outputs a tab-delimited `.csv` file
+- Creates a temporary tab-delimited `.csv` file (used internally for Excel export)
 - Converts to Excel `.xlsx` via COM automation
 - No administrative privileges required
 
