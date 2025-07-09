@@ -1,4 +1,4 @@
-﻿<#
+<#
 -----------------------------------------------------------------------------
 Script Name:     ConvertBookmarksToExcel.ps1
 Author:          MicMoony
@@ -15,15 +15,15 @@ Description:
   It handles nested folders, decodes HTML entities, and preserves folder paths for clearer organization.
 
 Usage:
-  .\ConvertBookmarksToExcel.ps1 [-InputFile "bookmarks.html"] [-OutputXlsx "out.xlsx"]
+  .\ConvertBookmarksToExcel.ps1 [-InputFile "bookmarks.html"] [-OutputFile "bookmarks.xlsx"]
 
 Parameters:
   InputFile   [string]  - Path to the bookmarks HTML file.
                           Default: "$PSScriptRoot\bookmarks.html"
 
-  OutputXlsx  [string]  - Path to the output Excel (.xlsx) file.
+  OutputFile  [string]  - Path to the output Excel (.xlsx) file.
                           Default: "$PSScriptRoot\Output\bookmarks.xlsx"
-                          The CSV file will be saved at the same location with .csv extension.
+                          The CSV file will be created temporarily during processing.
 
 Supported Browsers:
   - Google Chrome
@@ -40,14 +40,15 @@ Notes:
 
 param (
     [string]$inputFile = "$PSScriptRoot\bookmarks.html",
-    [string]$outputXlsx = "$PSScriptRoot\Output\bookmarks.xlsx"
+    [string]$outputFile = "$PSScriptRoot\Output\bookmarks.xlsx"
 )
 
-# Derive CSV output path by changing extension from .xlsx to .csv
-$outputCsv = [System.IO.Path]::ChangeExtension($outputXlsx, ".csv")
+# Create a temporary CSV file
+$tempCsv = [System.IO.Path]::GetTempFileName()
+$tempCsv = [System.IO.Path]::ChangeExtension($tempCsv, ".csv")
 
 # Ensure the output directory exists
-$outputDir = [System.IO.Path]::GetDirectoryName($outputXlsx)
+$outputDir = [System.IO.Path]::GetDirectoryName($outputFile)
 if (-not (Test-Path $outputDir)) {
     New-Item -Path $outputDir -ItemType Directory -Force | Out-Null
 }
@@ -98,8 +99,7 @@ foreach ($bookmark in $bookmarks) {
 
 # Write to file with UTF-8 BOM
 $utf8BomEncoding = New-Object System.Text.UTF8Encoding($true)
-[System.IO.File]::WriteAllLines($outputCsv, $lines, $utf8BomEncoding)
-Write-Host "Exported $($bookmarks.Count) bookmarks to $outputCsv"
+[System.IO.File]::WriteAllLines($tempCsv, $lines, $utf8BomEncoding)
 
 try {
     # Open in Excel and save as .xlsx
@@ -108,7 +108,7 @@ try {
 
     # Open the tab-delimited text file using Excel's OpenText method
     $excel.Workbooks.OpenText(
-        $outputCsv,
+        $tempCsv,
         "65001",               # Origin = UTF-8 code page as string
         1,                     # StartRow
         1,                     # DataType (1 = xlDelimited)
@@ -126,11 +126,11 @@ try {
 
     # Save as .xlsx
     $excel.DisplayAlerts = $false
-    $workbook.SaveAs($outputXlsx, 51)  # 51 = xlOpenXMLWorkbook
+    $workbook.SaveAs($outputFile, 51)  # 51 = xlOpenXMLWorkbook
     $workbook.Close($false)
     $excel.Quit()
 
-    Write-Host "Saved Excel file to $outputXlsx"
+    Write-Host "Exported $($bookmarks.Count) bookmarks to $outputFile"
 }
 catch {
     Write-Warning "Excel export failed: $_"
@@ -141,5 +141,10 @@ finally {
         [System.Runtime.Interopservices.Marshal]::ReleaseComObject($excel) | Out-Null
         [GC]::Collect()
         [GC]::WaitForPendingFinalizers()
+    }
+
+    # Delete the temporary CSV
+    if (Test-Path $tempCsv) {
+        Remove-Item $tempCsv -Force
     }
 }
