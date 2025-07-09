@@ -29,7 +29,7 @@ This PowerShell script helps bring order to the chaos by extracting bookmarks fr
 ## Usage
 
 ```powershell
-.\ConvertBookmarksToExcel.ps1 [-InputFile "bookmarks.html"] [-OutputXlsx "bookmarks.xlsx"]
+.\ConvertBookmarksToExcel.ps1 [-InputFile "bookmarks.html"] [-OutputFile "bookmarks.xlsx"]
 ```
 
 ## Parameters
@@ -37,12 +37,12 @@ This PowerShell script helps bring order to the chaos by extracting bookmarks fr
 | Parameter   | Type   | Description                                                                 |
 |-------------|--------|-----------------------------------------------------------------------------|
 | `InputFile` | string | Path to the HTML bookmarks file. Default: `.\bookmarks.html`                |
-| `OutputXlsx`| string | Path to the resulting Excel file. Default: `.\Output\bookmarks.xlsx`        |
+| `OutputFile`| string | Path to the resulting Excel file. Default: `.\Output\bookmarks.xlsx`        |
 
-> **Note**: The `.csv` file will be saved automatically in the same folder as the `.xlsx` file, using the `.csv` extension.
+> **Note**: A temporary `.csv` file is created during processing and automatically removed after Excel export.
 
 ## Example
 
 ```powershell
-.\ConvertBookmarksToExcel.ps1 -InputFile "MyEdgeBookmarks.html" -OutputXlsx "C:\Export\MyEdgeBookmarks_List.xlsx"
+.\ConvertBookmarksToExcel.ps1 -InputFile "MyEdgeBookmarks.html" -OutputFile "C:\Export\MyEdgeBookmarks_List.xlsx"
 ```
